@@ -5,14 +5,20 @@ plugins {
 }
 
 group = "com.t31n.ideapp"
-version = "1.0-SNAPSHOT"
+version = providers.gradleProperty("projectVersion").get()
 
-val localIdePath = "${System.getProperty("user.home")}/.local/share/JetBrains/Toolbox/apps/idea-IU-253.31033.145"
+val localIdePath = providers.gradleProperty("localIdePath")
+    .orElse("${System.getProperty("user.home")}/.local/share/JetBrains/Toolbox/apps/idea-IU-253.31033.145")
+    .get()
+val localIde = file(localIdePath)
 
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
     intellijPlatform {
-        local(localIdePath)
+        if (localIde.isDirectory) {
+            local(localIdePath)
+        } else {
+            intellijIdea("2025.3.6.1")
+        }
         bundledPlugin("org.jetbrains.kotlin")
         bundledPlugin("com.intellij.java")
     }
@@ -21,17 +27,21 @@ dependencies {
 intellijPlatform {
     pluginVerification {
         ides {
-            local(localIdePath)
+            if (localIde.isDirectory) {
+                local(localIdePath)
+            } else {
+                recommended()
+            }
         }
     }
 
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "252.25557"
+            sinceBuild = "253"
         }
 
         changeNotes = """
-            Initial commit.
+            Initial release with Kotlin package-private enforcement.
         """.trimIndent()
     }
 }

@@ -1,6 +1,7 @@
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 
 rootProject.name = "IDEAPackagePrivate"
+include(":annotation-library", ":sample")
 
 // Settings plugins cannot use aliases from the version catalog.
 plugins {

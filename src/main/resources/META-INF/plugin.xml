@@ -5,16 +5,17 @@
 
     <!-- Public plugin name should be written in Title Case.
      Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>IDEAPackagePrivate</name>
+    <name>Package Private for Kotlin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://github.com/T31n/IDEAPackagePrivate">T31n</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        Enter short description for your plugin here.<br>
-        <em>most HTML tags may be used</em>
+        Enforces package-private access for Kotlin declarations marked with
+        <code>io.github.t31n.packageprivate.PackagePrivate</code>. Cross-package references are highlighted
+        and restricted declarations are filtered from completion and auto-import suggestions.
         ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -25,6 +26,19 @@
     <!-- Extensions defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <localInspection language="kotlin"
+                         shortName="PackagePrivateAccess"
+                         displayName="Package-private access"
+                         groupName="Kotlin"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="io.github.t31n.ideapackageprivate.PackagePrivateInspection"/>
+        <completion.contributor language="kotlin"
+                                implementationClass="io.github.t31n.ideapackageprivate.PackagePrivateCompletionContributor"
+                                order="first"/>
+    </extensions>
+    <extensions defaultExtensionNs="org.jetbrains.kotlin.idea.codeInsight">
+        <unambiguousImports implementation="io.github.t31n.ideapackageprivate.PackagePrivateAutoImportsFilter"/>
     </extensions>
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
         <supportsKotlinPluginMode supportsK2="true"/>
