@@ -25,16 +25,6 @@ dependencies {
 }
 
 intellijPlatform {
-    pluginVerification {
-        ides {
-            if (localIde.isDirectory) {
-                local(localIdePath)
-            } else {
-                recommended()
-            }
-        }
-    }
-
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "253"

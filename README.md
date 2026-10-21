@@ -50,7 +50,7 @@ import io.github.t31n.packageprivate.PackagePrivate
 fun internalApi() = Unit
 ```
 
-Install **Package Private for Kotlin** from the JetBrains Marketplace, or run it from this repository with `./gradlew runIde`. With the annotation library on the project classpath, the plugin:
+Install **Package Private for Kotlin** from the JetBrains Marketplace in IntelliJ IDEA or Android Studio, or run it from this repository with `./gradlew runIde`. The plugin targets IntelliJ Platform build 253 and later; the project does not currently configure Plugin Verifier to test Android Studio. With the annotation library on the project classpath, the plugin:
 
 - Hides annotated declarations from Kotlin completion, including forced completion with Ctrl+Space.
 - Removes cross-package declarations from Kotlin auto-import suggestions.
