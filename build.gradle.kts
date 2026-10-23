@@ -1,30 +1,27 @@
 plugins {
     id("java")
-    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.kotlin.jvm") version "2.4.20"
     id("org.jetbrains.intellij.platform")
 }
 
 group = "com.t31n.ideapp"
 version = providers.gradleProperty("projectVersion").get()
 
-val localIdePath = providers.gradleProperty("localIdePath")
-    .orElse("${System.getProperty("user.home")}/.local/share/JetBrains/Toolbox/apps/idea-IU-253.31033.145")
-    .get()
-val localIde = file(localIdePath)
-
 dependencies {
     intellijPlatform {
-        if (localIde.isDirectory) {
-            local(localIdePath)
-        } else {
-            intellijIdea("2025.3.6.1")
-        }
+        intellijIdea("2026.2.3")
         bundledPlugin("org.jetbrains.kotlin")
         bundledPlugin("com.intellij.java")
     }
 }
 
 intellijPlatform {
+    pluginVerification {
+        ides {
+            current()
+        }
+    }
+
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "253"
