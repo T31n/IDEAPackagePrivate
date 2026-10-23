@@ -52,10 +52,16 @@ internal object PackagePrivateSupport {
 
     fun hasPackagePrivateAnnotation(declaration: KtDeclaration): Boolean =
         declaration.annotationEntries.any { annotation ->
-            annotation.typeReference?.references
-                ?.asSequence()
-                ?.mapNotNull { it.resolve() }
-                ?.any { qualifiedName(it) == ANNOTATION_FQ_NAME } == true
+            annotation.typeReference?.let { typeReference ->
+                (
+                    typeReference.references.asSequence() +
+                        PsiTreeUtil.findChildrenOfType(typeReference, KtSimpleNameExpression::class.java)
+                            .asSequence()
+                            .flatMap { it.references.asSequence() }
+                    )
+                    .mapNotNull { it.resolve() }
+                    .any { qualifiedName(it) == ANNOTATION_FQ_NAME }
+            } == true
         }
 
     fun asKotlinDeclaration(element: PsiElement?): KtDeclaration? {
