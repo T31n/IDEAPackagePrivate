@@ -6,7 +6,7 @@ include(":annotation-library", ":sample")
 // Settings plugins cannot use aliases from the version catalog.
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-    id("org.jetbrains.intellij.platform.settings") version "2.19.0"
+    id("org.jetbrains.intellij.platform.settings") version "2.20.0"
 }
 
 dependencyResolutionManagement {
